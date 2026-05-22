@@ -5,409 +5,190 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contabilizy – Sistema de Contratos</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --brand: #1F3864;
-    --brand-mid: #2d549c;
-    --accent: #2563C7;
-    --accent-light: #e8f0fd;
-    --success: #166534;
-    --success-bg: #dcfce7;
-    --warn: #92400e;
-    --warn-bg: #fef3c7;
-    --danger: #991b1b;
-    --danger-bg: #fee2e2;
-    --gray-50: #f9fafb;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-300: #d1d5db;
-    --gray-400: #9ca3af;
-    --gray-500: #6b7280;
-    --gray-700: #374151;
-    --gray-900: #111827;
-    --white: #ffffff;
-    --radius: 8px;
-    --radius-lg: 12px;
-    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.05);
-    --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.05);
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: var(--gray-100);
-    color: var(--gray-900);
-    font-size: 14px;
-    line-height: 1.6;
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  .header {
-    background: var(--brand);
-    color: white;
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    box-shadow: var(--shadow-md);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-logo { font-size: 17px; font-weight: 700; letter-spacing: -.3px; }
-  .header-logo span { color: #93c5fd; }
-  .header-sub { font-size: 12px; color: #93c5fd; }
-
-  /* LAYOUT */
-  .layout { display: flex; min-height: calc(100vh - 56px); }
-
-  /* SIDEBAR */
-  .sidebar {
-    width: 220px;
-    background: var(--white);
-    border-right: 1px solid var(--gray-200);
-    padding: 1.5rem 0;
-    flex-shrink: 0;
-    position: sticky;
-    top: 56px;
-    height: calc(100vh - 56px);
-    overflow-y: auto;
-  }
-  .sidebar-label { font-size: 10px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .08em; padding: 0 1.25rem; margin-bottom: 6px; margin-top: 16px; }
-  .sidebar-label:first-child { margin-top: 0; }
-  .nav-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 9px 1.25rem;
-    cursor: pointer;
-    color: var(--gray-700);
-    font-size: 13px;
-    font-weight: 500;
-    transition: all .15s;
-    border-left: 3px solid transparent;
-  }
-  .nav-item:hover { background: var(--gray-50); color: var(--accent); }
-  .nav-item.active { background: var(--accent-light); color: var(--accent); border-left-color: var(--accent); }
-  .nav-item svg { width: 16px; height: 16px; flex-shrink: 0; }
-
-  /* MAIN */
-  .main { flex: 1; padding: 1.75rem 2rem; max-width: 900px; }
-
-  .page { display: none; }
-  .page.active { display: block; }
-
-  .page-title { font-size: 20px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
-  .page-desc { font-size: 13px; color: var(--gray-500); margin-bottom: 1.5rem; }
-
-  /* CARDS */
-  .card {
-    background: var(--white);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius-lg);
-    padding: 1.25rem;
-    margin-bottom: 1rem;
-    box-shadow: var(--shadow);
-  }
-  .card-title {
-    font-size: 11px; font-weight: 700; color: var(--gray-400);
-    text-transform: uppercase; letter-spacing: .07em;
-    margin-bottom: 1rem; padding-bottom: 8px;
-    border-bottom: 1px solid var(--gray-100);
-  }
-
-  /* FORMS */
-  .form-grid { display: grid; gap: 12px; }
-  .g2 { grid-template-columns: 1fr 1fr; }
-  .g3 { grid-template-columns: 1fr 1fr 1fr; }
-  .g1 { grid-template-columns: 1fr; }
-  .field { display: flex; flex-direction: column; gap: 5px; }
-  .field label { font-size: 12px; font-weight: 600; color: var(--gray-500); }
-  .field input, .field select, .field textarea {
-    padding: 8px 10px;
-    border: 1px solid var(--gray-300);
-    border-radius: var(--radius);
-    font-size: 13px;
-    color: var(--gray-900);
-    background: var(--white);
-    transition: border-color .15s, box-shadow .15s;
-    font-family: inherit;
-    width: 100%;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(37,99,199,.12);
-  }
-  .field textarea { resize: vertical; min-height: 80px; }
-
-  /* BUTTONS */
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 16px; border-radius: var(--radius);
-    font-size: 13px; font-weight: 600; cursor: pointer;
-    border: 1px solid var(--gray-300);
-    background: var(--white); color: var(--gray-700);
-    transition: all .15s; text-decoration: none;
-  }
-  .btn:hover { background: var(--gray-50); border-color: var(--gray-400); }
-  .btn.primary { background: var(--accent); color: white; border-color: var(--accent); }
-  .btn.primary:hover { background: #1d4ed8; }
-  .btn.success { background: #15803d; color: white; border-color: #15803d; }
-  .btn.success:hover { background: #166534; }
-  .btn.outline { background: transparent; }
-  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 1rem; }
-
-  /* METRICS */
-  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1rem; }
-  .metric { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 14px; box-shadow: var(--shadow); }
-  .metric-label { font-size: 11px; color: var(--gray-500); font-weight: 600; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 4px; }
-  .metric-value { font-size: 22px; font-weight: 700; color: var(--gray-900); }
-  .metric-value.blue { color: var(--accent); }
-  .metric-value.green { color: #15803d; }
-
-  /* RESULT TABLE */
-  .result-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .result-table td { padding: 7px 10px; border-bottom: 1px solid var(--gray-100); }
-  .result-table td:last-child { text-align: right; font-weight: 500; }
-  .result-table tr.total td { font-weight: 700; font-size: 14px; border-top: 2px solid var(--gray-200); border-bottom: none; padding-top: 12px; }
-
-  /* BADGE */
-  .badge { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
-  .badge.green { background: var(--success-bg); color: var(--success); }
-  .badge.blue { background: var(--accent-light); color: var(--accent); }
-  .badge.warn { background: var(--warn-bg); color: var(--warn); }
-  .badge.red { background: var(--danger-bg); color: var(--danger); }
-
-  /* ALERTS */
-  .alert { padding: 10px 14px; border-radius: var(--radius); font-size: 13px; margin-bottom: 12px; font-weight: 500; }
-  .alert.success { background: var(--success-bg); color: var(--success); }
-  .alert.error { background: var(--danger-bg); color: var(--danger); }
-  .alert.info { background: var(--accent-light); color: var(--accent); }
-  .alert.warn { background: var(--warn-bg); color: var(--warn); }
-
-  /* CNPJ SEARCH */
-  .cnpj-search { display: flex; gap: 8px; align-items: flex-end; }
-  .cnpj-search .field { flex: 1; }
-  .company-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1rem; }
-  .company-name { font-size: 18px; font-weight: 700; }
-  .company-sub { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
-
-  /* CONTRATO PREVIEW */
-  .contrato-box {
-    background: var(--gray-50);
-    border: 1px solid var(--gray-200);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    font-size: 13px;
-    line-height: 2;
-    white-space: pre-wrap;
-    max-height: 500px;
-    overflow-y: auto;
-    font-family: 'Georgia', serif;
-  }
-
-  /* EMAIL PREVIEW */
-  .email-box { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); overflow: hidden; }
-  .email-headers { background: var(--gray-50); padding: 12px 16px; border-bottom: 1px solid var(--gray-200); }
-  .email-header-row { display: flex; gap: 8px; font-size: 13px; margin-bottom: 3px; }
-  .email-header-row b { color: var(--gray-500); min-width: 60px; }
-  .email-body { padding: 16px; font-size: 13px; line-height: 1.9; white-space: pre-wrap; }
-
-  /* FOLHETO */
-  .folheto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .folheto-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 14px; }
-  .folheto-card h3 { font-size: 13px; font-weight: 700; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(--brand); }
-  .folheto-card h3 .icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
-  .folheto-card ul { font-size: 12px; color: var(--gray-700); line-height: 2; padding-left: 0; list-style: none; }
-  .folheto-card ul li::before { content: "→ "; color: var(--accent); font-weight: 700; }
-  .folheto-card ul li b { color: var(--brand); }
-
-  /* SPINNER */
-  .spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* PRICE DISPLAY */
-  .price-big { font-size: 32px; font-weight: 800; color: var(--accent); }
-
-  .divider { border: none; border-top: 1px solid var(--gray-200); margin: 1rem 0; }
-
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .main { padding: 1rem; }
-    .g2, .g3 { grid-template-columns: 1fr; }
-    .metrics { grid-template-columns: 1fr 1fr; }
-    .folheto-grid { grid-template-columns: 1fr; }
-  }
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f3f4f6;color:#111827;font-size:14px}
+.header{background:#1F3864;color:#fff;padding:0 1.5rem;height:52px;display:flex;align-items:center;justify-content:space-between}
+.header h1{font-size:16px;font-weight:700}.header span{color:#93c5fd}
+.header small{font-size:11px;color:#93c5fd}
+.layout{display:flex;min-height:calc(100vh - 52px)}
+.sidebar{width:200px;background:#fff;border-right:1px solid #e5e7eb;padding:1rem 0;flex-shrink:0}
+.nav{display:flex;flex-direction:column}
+.nav button{display:flex;align-items:center;gap:8px;padding:9px 1rem;background:none;border:none;border-left:3px solid transparent;cursor:pointer;font-size:13px;font-weight:500;color:#374151;text-align:left;transition:.15s}
+.nav button:hover{background:#f9fafb;color:#2563C7}
+.nav button.active{background:#eff6ff;color:#2563C7;border-left-color:#2563C7}
+.main{flex:1;padding:1.5rem;max-width:860px}
+.page{display:none}.page.active{display:block}
+.page-title{font-size:18px;font-weight:700;margin-bottom:4px}
+.page-desc{font-size:13px;color:#6b7280;margin-bottom:1.25rem}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card-title{font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.06em;margin-bottom:1rem;padding-bottom:8px;border-bottom:1px solid #f3f4f6}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field label{font-size:11px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.04em}
+.field input,.field select,.field textarea{padding:8px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;color:#111827;font-family:inherit;width:100%;transition:.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:#2563C7;box-shadow:0 0 0 3px rgba(37,99,199,.1)}
+.field textarea{resize:vertical;min-height:80px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;border:1px solid #d1d5db;background:#fff;color:#374151;transition:.15s}
+.btn:hover{background:#f9fafb}
+.btn.primary{background:#2563C7;color:#fff;border-color:#2563C7}
+.btn.primary:hover{background:#1d4ed8}
+.btn.success{background:#15803d;color:#fff;border-color:#15803d}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:1rem}
+.search-row{display:flex;gap:8px;align-items:flex-end}
+.search-row .field{flex:1}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1rem}
+.metric{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:12px;box-shadow:0 1px 2px rgba(0,0,0,.05)}
+.metric .lbl{font-size:11px;color:#6b7280;font-weight:600;text-transform:uppercase;margin-bottom:4px}
+.metric .val{font-size:20px;font-weight:700;color:#111827}
+.metric .val.blue{color:#2563C7}.metric .val.green{color:#15803d}
+.result-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.result-tbl td{padding:7px 8px;border-bottom:1px solid #f3f4f6;color:#374151}
+.result-tbl td:first-child{color:#9ca3af;width:40%}
+.result-tbl tr.total td{font-weight:700;font-size:14px;border-top:2px solid #e5e7eb;border-bottom:none;padding-top:10px}
+.company-name{font-size:17px;font-weight:700;margin-bottom:2px}
+.company-sub{font-size:13px;color:#6b7280}
+.badge{display:inline-block;padding:2px 10px;border-radius:99px;font-size:11px;font-weight:700}
+.badge.green{background:#dcfce7;color:#166534}
+.badge.warn{background:#fef3c7;color:#92400e}
+.alert{padding:10px 14px;border-radius:6px;font-size:13px;font-weight:500;margin-bottom:10px}
+.alert.success{background:#dcfce7;color:#166534}
+.alert.error{background:#fee2e2;color:#991b1b}
+.alert.info{background:#eff6ff;color:#1d4ed8}
+.contrato-box{background:#fafafa;border:1px solid #e5e7eb;border-radius:6px;padding:1.5rem;font-size:13px;line-height:2;white-space:pre-wrap;max-height:480px;overflow-y:auto;font-family:Georgia,serif}
+.email-box{background:#fff;border:1px solid #e5e7eb;border-radius:8px;overflow:hidden}
+.email-hdr{background:#f9fafb;padding:12px 14px;border-bottom:1px solid #e5e7eb;font-size:13px}
+.email-hdr div{margin-bottom:2px}.email-hdr b{color:#6b7280}
+.email-body{padding:14px;font-size:13px;line-height:1.9;white-space:pre-wrap}
+.folheto{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fcard{background:#fff;border:1px solid #e5e7eb;border-radius:8px;padding:14px}
+.fcard h3{font-size:13px;font-weight:700;color:#1F3864;margin-bottom:8px}
+.fcard ul{font-size:12px;color:#374151;line-height:2;list-style:none}
+.fcard ul li::before{content:"→ ";color:#2563C7;font-weight:700}
+.price-big{font-size:28px;font-weight:800;color:#2563C7;margin:6px 0}
+.spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:inline-block}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 
-<header class="header">
-  <div>
-    <div class="header-logo">Contabili<span>zy</span></div>
-    <div class="header-sub">Sistema de Contratos e Gestão de Clientes</div>
-  </div>
-  <div style="font-size:12px; color:#93c5fd;" id="clock"></div>
-</header>
+<div class="header">
+  <div><h1>Contabili<span>zy</span> – Sistema de Contratos</h1></div>
+  <small id="relogio"></small>
+</div>
 
 <div class="layout">
-
-  <!-- SIDEBAR -->
   <nav class="sidebar">
-    <div class="sidebar-label">Novo cliente</div>
-    <div class="nav-item active" onclick="showPage('busca')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-      Buscar CNPJ
-    </div>
-    <div class="nav-item" onclick="showPage('preco')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 11h.01M12 11h.01M15 11h.01M4 19h16a2 2 0 002-2V7a2 2 0 00-2-2H4a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-      Precificação
-    </div>
-    <div class="nav-item" onclick="showPage('contrato')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-      Gerar Contrato
-    </div>
-    <div class="nav-item" onclick="showPage('email')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-      E-mail de Boas-vindas
-    </div>
-    <div class="nav-item" onclick="showPage('folheto')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      Folheto Informativo
-    </div>
-    <div class="sidebar-label">Configurações</div>
-    <div class="nav-item" onclick="showPage('config')">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-      Configurações
+    <div class="nav">
+      <button class="active" onclick="ir('busca')">🔍 Buscar CNPJ</button>
+      <button onclick="ir('preco')">🧮 Precificação</button>
+      <button onclick="ir('contrato')">📄 Gerar Contrato</button>
+      <button onclick="ir('email')">📧 E-mail</button>
+      <button onclick="ir('folheto')">📋 Folheto</button>
+      <button onclick="ir('config')">⚙️ Configurações</button>
     </div>
   </nav>
 
-  <!-- MAIN CONTENT -->
   <main class="main">
 
-    <!-- PAGE: BUSCAR CNPJ -->
+    <!-- BUSCA -->
     <div class="page active" id="page-busca">
       <div class="page-title">Buscar CNPJ</div>
-      <div class="page-desc">Pesquise o CNPJ do cliente para preencher automaticamente os dados do contrato.</div>
-
+      <div class="page-desc">Digite o CNPJ do cliente para buscar os dados automaticamente.</div>
       <div class="card">
-        <div class="card-title">pesquisa na receita federal</div>
-        <div class="cnpj-search">
+        <div class="search-row">
           <div class="field">
-            <label>CNPJ</label>
-            <input type="text" id="cnpj-input" placeholder="00.000.000/0001-00" maxlength="18" oninput="mascararCNPJ(this)" onkeydown="if(event.key==='Enter')buscarCNPJ()" style="font-size:16px; padding:10px 12px;" />
+            <label>CNPJ do Cliente</label>
+            <input type="text" id="inp-cnpj" placeholder="00.000.000/0001-00" maxlength="18" oninput="maskCNPJ(this)" onkeydown="if(event.key==='Enter')buscar()" style="font-size:15px;padding:10px 12px">
           </div>
-          <button class="btn primary" onclick="buscarCNPJ()" id="btn-buscar" style="height:40px; padding:0 20px;">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-            Buscar
-          </button>
+          <button class="btn primary" id="btn-buscar" onclick="buscar()" style="height:42px;padding:0 20px">🔍 Buscar</button>
         </div>
-        <div id="alerta-cnpj" style="margin-top:10px;"></div>
+        <div id="alerta" style="margin-top:10px"></div>
       </div>
 
-      <div id="resultado-empresa" style="display:none">
+      <div id="res-area" style="display:none">
         <div class="card">
-          <div class="company-header">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
             <div>
-              <div class="company-name" id="res-razao"></div>
-              <div class="company-sub" id="res-fantasia"></div>
+              <div class="company-name" id="r-razao"></div>
+              <div class="company-sub" id="r-fantasia"></div>
             </div>
-            <span class="badge green" id="res-situacao"></span>
+            <span class="badge green" id="r-sit"></span>
           </div>
-          <table class="result-table">
-            <tr><td style="color:var(--gray-500)">CNPJ</td><td id="res-cnpj"></td></tr>
-            <tr><td style="color:var(--gray-500)">Natureza Jurídica</td><td id="res-natureza"></td></tr>
-            <tr><td style="color:var(--gray-500)">CNAE Principal</td><td id="res-cnae"></td></tr>
-            <tr><td style="color:var(--gray-500)">Porte</td><td id="res-porte"></td></tr>
-            <tr><td style="color:var(--gray-500)">Data de Abertura</td><td id="res-abertura"></td></tr>
-            <tr><td style="color:var(--gray-500)">Endereço</td><td id="res-endereco"></td></tr>
-            <tr><td style="color:var(--gray-500)">Município / UF</td><td id="res-municipio"></td></tr>
-            <tr><td style="color:var(--gray-500)">E-mail</td><td id="res-email"></td></tr>
-            <tr><td style="color:var(--gray-500)">Telefone</td><td id="res-telefone"></td></tr>
+          <table class="result-tbl">
+            <tr><td>CNPJ</td><td id="r-cnpj"></td></tr>
+            <tr><td>Natureza Jurídica</td><td id="r-nat"></td></tr>
+            <tr><td>CNAE Principal</td><td id="r-cnae"></td></tr>
+            <tr><td>Porte</td><td id="r-porte"></td></tr>
+            <tr><td>Abertura</td><td id="r-aber"></td></tr>
+            <tr><td>Endereço</td><td id="r-end"></td></tr>
+            <tr><td>Município / UF / CEP</td><td id="r-mun"></td></tr>
+            <tr><td>E-mail</td><td id="r-email"></td></tr>
+            <tr><td>Telefone</td><td id="r-tel"></td></tr>
           </table>
         </div>
-
         <div class="card">
-          <div class="card-title">complementar dados do cliente</div>
-          <div class="form-grid g2">
-            <div class="field"><label>Nome do responsável / sócio</label><input type="text" id="campo-responsavel" placeholder="Nome completo" /></div>
-            <div class="field"><label>CPF do responsável</label><input type="text" id="campo-cpf" placeholder="000.000.000-00" /></div>
-            <div class="field"><label>E-mail para contato</label><input type="text" id="campo-email-cliente" placeholder="cliente@email.com" /></div>
-            <div class="field"><label>Telefone / WhatsApp</label><input type="text" id="campo-tel-cliente" placeholder="(22) 99999-9999" /></div>
+          <div class="card-title">complementar dados</div>
+          <div class="g2">
+            <div class="field"><label>Responsável / Sócio</label><input type="text" id="c-resp" placeholder="Nome completo"></div>
+            <div class="field"><label>CPF do Responsável</label><input type="text" id="c-cpf" placeholder="000.000.000-00"></div>
+            <div class="field"><label>E-mail do Cliente</label><input type="text" id="c-email" placeholder="email@cliente.com"></div>
             <div class="field"><label>Tributação</label>
-              <select id="campo-tributacao">
+              <select id="c-trib">
                 <option value="MEI">MEI</option>
                 <option value="Simples Nacional">Simples Nacional</option>
                 <option value="Lucro Presumido">Lucro Presumido</option>
                 <option value="Lucro Real">Lucro Real</option>
               </select>
             </div>
-            <div class="field"><label>Possui funcionários?</label>
-              <select id="campo-funcionarios">
-                <option value="0">Não possui</option>
-                <option value="1">1 funcionário</option>
-                <option value="2">2 funcionários</option>
-                <option value="3">3 ou mais</option>
-              </select>
-            </div>
           </div>
           <div class="btn-row">
-            <button class="btn primary" onclick="usarEmpresa()">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-              Usar dados e calcular honorário
-            </button>
-            <button class="btn" onclick="usarEmpresaContrato()">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              Ir direto para o contrato
-            </button>
+            <button class="btn primary" onclick="usarDados()">→ Calcular honorário</button>
+            <button class="btn" onclick="irContrato()">→ Gerar contrato direto</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- PAGE: PRECIFICAÇÃO -->
+    <!-- PRECIFICAÇÃO -->
     <div class="page" id="page-preco">
       <div class="page-title">Precificação</div>
-      <div class="page-desc">Calcule o honorário ideal com base no perfil do cliente.</div>
-
+      <div class="page-desc">Calcule o honorário ideal para o cliente.</div>
       <div class="card">
-        <div class="card-title">perfil do cliente</div>
-        <div class="form-grid g3">
-          <div class="field"><label>Faturamento médio mensal (R$)</label><input type="number" id="p-faturamento" value="10000" oninput="calcularPreco()" /></div>
+        <div class="g3">
           <div class="field"><label>Tributação</label>
-            <select id="p-tributacao" onchange="calcularPreco()">
+            <select id="p-trib" onchange="calc()">
               <option value="MEI">MEI</option>
               <option value="simples">Simples Nacional</option>
               <option value="presumido">Lucro Presumido</option>
               <option value="real">Lucro Real</option>
             </select>
           </div>
-          <div class="field"><label>Número de funcionários</label>
-            <select id="p-func" onchange="calcularPreco()">
-              <option value="0">0 – nenhum</option>
-              <option value="1">1 funcionário</option>
-              <option value="2">2 funcionários</option>
-              <option value="3">3 funcionários</option>
-              <option value="5">4 a 5 funcionários</option>
-              <option value="8">6 a 10 funcionários</option>
+          <div class="field"><label>Funcionários</label>
+            <select id="p-func" onchange="calc()">
+              <option value="0">Nenhum</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="5">4 a 5</option>
+              <option value="8">6 a 10</option>
             </select>
           </div>
-          <div class="field"><label>Emite nota fiscal?</label>
-            <select id="p-nf" onchange="calcularPreco()">
-              <option value="0">Não emite</option>
+          <div class="field"><label>Emite NF?</label>
+            <select id="p-nf" onchange="calc()">
+              <option value="0">Não</option>
               <option value="1">Sim – até 10/mês</option>
               <option value="2">Sim – mais de 10/mês</option>
             </select>
           </div>
-          <div class="field"><label>Inclui IRPF?</label>
-            <select id="p-irpf" onchange="calcularPreco()">
-              <option value="1">Sim – incluso</option>
+          <div class="field"><label>IRPF incluso?</label>
+            <select id="p-irpf" onchange="calc()">
+              <option value="1">Sim</option>
               <option value="0">Não</option>
             </select>
           </div>
-          <div class="field"><label>Complexidade do cliente</label>
-            <select id="p-complexidade" onchange="calcularPreco()">
+          <div class="field"><label>Complexidade</label>
+            <select id="p-comp" onchange="calc()">
               <option value="1">Normal</option>
               <option value="1.3">Média</option>
               <option value="1.6">Alta</option>
@@ -415,119 +196,93 @@
           </div>
         </div>
       </div>
-
       <div class="metrics">
-        <div class="metric"><div class="metric-label">Base do honorário</div><div class="metric-value blue" id="m-base">R$ 0</div></div>
-        <div class="metric"><div class="metric-label">Folha de pagamento</div><div class="metric-value" id="m-folha">R$ 0</div></div>
-        <div class="metric"><div class="metric-label">Extras (NF + IRPF)</div><div class="metric-value" id="m-extras">R$ 0</div></div>
-        <div class="metric"><div class="metric-label">Total sugerido</div><div class="metric-value green" id="m-total">R$ 0</div></div>
+        <div class="metric"><div class="lbl">Base</div><div class="val blue" id="m-base">R$ 0</div></div>
+        <div class="metric"><div class="lbl">Folha</div><div class="val" id="m-folha">R$ 0</div></div>
+        <div class="metric"><div class="lbl">Extras</div><div class="val" id="m-ext">R$ 0</div></div>
+        <div class="metric"><div class="lbl">Total</div><div class="val green" id="m-total">R$ 0</div></div>
       </div>
-
       <div class="card">
-        <div class="card-title">composição detalhada</div>
-        <table class="result-table" id="composicao-table"></table>
-        <hr class="divider">
-        <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+        <div class="card-title">composição</div>
+        <table class="result-tbl" id="comp-tbl"></table>
+        <hr style="border:none;border-top:1px solid #e5e7eb;margin:1rem 0">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
           <div>
-            <div style="font-size:12px; color:var(--gray-500); margin-bottom:2px;">Honorário mensal sugerido</div>
+            <div style="font-size:12px;color:#6b7280">Honorário sugerido</div>
             <div class="price-big" id="preco-final">R$ 0,00</div>
           </div>
-          <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
-            <div class="field">
-              <label>Ajustar valor final (R$)</label>
-              <input type="number" id="preco-ajustado" placeholder="Personalizar valor" style="width:180px;" oninput="atualizarAjuste()" />
-            </div>
-            <button class="btn success" onclick="irParaContrato()">
-              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-              Gerar contrato com este valor
-            </button>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="field"><label>Ajustar valor (R$)</label><input type="number" id="p-ajuste" placeholder="Personalizar" style="width:160px" oninput="ajuste()"></div>
+            <button class="btn success" onclick="ir('contrato')">📄 Gerar contrato com este valor</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- PAGE: CONTRATO -->
+    <!-- CONTRATO -->
     <div class="page" id="page-contrato">
       <div class="page-title">Gerar Contrato</div>
-      <div class="page-desc">Preencha os dados e gere a prévia do contrato para copiar ou imprimir.</div>
-
+      <div class="page-desc">Preencha os dados e gere o contrato completo.</div>
       <div class="card">
-        <div class="card-title">dados do contratante (cliente)</div>
-        <div class="form-grid g2">
-          <div class="field"><label>Razão social / nome</label><input type="text" id="ct-razao" placeholder="Nome ou Razão Social" /></div>
-          <div class="field"><label>CNPJ / CPF</label><input type="text" id="ct-cnpj" placeholder="00.000.000/0001-00" /></div>
-          <div class="field"><label>Nome do responsável</label><input type="text" id="ct-responsavel" placeholder="Nome completo" /></div>
-          <div class="field"><label>CPF do responsável</label><input type="text" id="ct-cpf" placeholder="000.000.000-00" /></div>
-          <div class="field"><label>Endereço</label><input type="text" id="ct-endereco" placeholder="Rua, número, bairro" /></div>
-          <div class="field"><label>Município / UF / CEP</label><input type="text" id="ct-municipio" placeholder="Cabo Frio / RJ – CEP 00000-000" /></div>
+        <div class="g2">
+          <div class="field"><label>Razão Social / Nome</label><input type="text" id="ct-razao" placeholder="Nome do cliente"></div>
+          <div class="field"><label>CNPJ / CPF</label><input type="text" id="ct-cnpj" placeholder="00.000.000/0001-00"></div>
+          <div class="field"><label>Responsável</label><input type="text" id="ct-resp" placeholder="Nome completo"></div>
+          <div class="field"><label>CPF do Responsável</label><input type="text" id="ct-cpf" placeholder="000.000.000-00"></div>
+          <div class="field"><label>Endereço</label><input type="text" id="ct-end" placeholder="Rua, número, bairro"></div>
+          <div class="field"><label>Município / UF / CEP</label><input type="text" id="ct-mun" placeholder="Cabo Frio / RJ"></div>
           <div class="field"><label>Tributação</label>
-            <select id="ct-tributacao">
-              <option>MEI</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option>
-            </select>
+            <select id="ct-trib"><option>MEI</option><option>Simples Nacional</option><option>Lucro Presumido</option><option>Lucro Real</option></select>
           </div>
-          <div class="field"><label>Valor mensal do honorário (R$)</label><input type="number" id="ct-valor" placeholder="0,00" /></div>
+          <div class="field"><label>Honorário Mensal (R$)</label><input type="number" id="ct-valor" placeholder="0,00"></div>
         </div>
-        <div class="form-grid g1" style="margin-top:12px;">
-          <div class="field">
-            <label>Serviços inclusos (um por linha)</label>
-            <textarea id="ct-servicos">Apuração e emissão mensal do DAS-MEI
+        <div class="field" style="margin-top:12px">
+          <label>Serviços inclusos (um por linha)</label>
+          <textarea id="ct-servicos">Apuração e emissão mensal do DAS-MEI
 Entrega da DASN-SIMEI anual
 Orientação contábil e fiscal relacionada ao MEI
 Declaração de Imposto de Renda – Pessoa Física (IRPF)
-Regularização básica perante órgãos fiscais, quando aplicável</textarea>
-          </div>
+Regularização básica perante órgãos fiscais</textarea>
         </div>
         <div class="btn-row">
-          <button class="btn primary" onclick="gerarContrato()">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            Gerar prévia do contrato
-          </button>
-          <button class="btn" onclick="copiarContrato()">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
-            Copiar texto
-          </button>
-          <button class="btn" onclick="imprimirContrato()">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-            Imprimir / Salvar PDF
-          </button>
+          <button class="btn primary" onclick="gerarContrato()">📄 Gerar prévia</button>
+          <button class="btn" onclick="copiarContrato()">📋 Copiar texto</button>
+          <button class="btn" onclick="window.print()">🖨️ Imprimir / PDF</button>
         </div>
       </div>
-
-      <div id="preview-contrato" style="display:none">
+      <div id="prev-contrato" style="display:none">
         <div class="card">
           <div class="card-title">prévia do contrato</div>
-          <div class="contrato-box" id="texto-contrato"></div>
+          <div class="contrato-box" id="txt-contrato"></div>
         </div>
       </div>
     </div>
 
-    <!-- PAGE: EMAIL -->
+    <!-- EMAIL -->
     <div class="page" id="page-email">
       <div class="page-title">E-mail de Boas-vindas</div>
-      <div class="page-desc">Gere o e-mail para enviar ao cliente junto com o contrato.</div>
-
+      <div class="page-desc">Gere o e-mail para enviar ao cliente com o contrato.</div>
       <div class="card">
-        <div class="card-title">dados para o e-mail</div>
-        <div class="form-grid g2">
-          <div class="field"><label>Nome do destinatário</label><input type="text" id="em-nome" placeholder="Nome do cliente" /></div>
-          <div class="field"><label>E-mail do destinatário</label><input type="text" id="em-email" placeholder="cliente@email.com" /></div>
+        <div class="g2">
+          <div class="field"><label>Nome do Cliente</label><input type="text" id="em-nome" placeholder="Nome"></div>
+          <div class="field"><label>E-mail do Cliente</label><input type="text" id="em-email" placeholder="cliente@email.com"></div>
         </div>
-        <div class="form-grid g1" style="margin-top:12px;">
-          <div class="field"><label>Observação adicional (opcional)</label><textarea id="em-extra" placeholder="Informação complementar para incluir no e-mail..."></textarea></div>
+        <div class="field" style="margin-top:12px">
+          <label>Observação adicional</label>
+          <textarea id="em-obs" placeholder="Informação extra para o e-mail..." style="min-height:50px"></textarea>
         </div>
         <div class="btn-row">
-          <button class="btn primary" onclick="gerarEmail()">Gerar e-mail</button>
-          <button class="btn" onclick="copiarEmail()">Copiar e-mail</button>
+          <button class="btn primary" onclick="gerarEmail()">📧 Gerar e-mail</button>
+          <button class="btn" onclick="copiarEmail()">📋 Copiar</button>
         </div>
       </div>
-
-      <div id="preview-email" style="display:none">
+      <div id="prev-email" style="display:none">
         <div class="card">
           <div class="card-title">prévia do e-mail</div>
           <div class="email-box">
-            <div class="email-headers">
-              <div class="email-header-row"><b>Para:</b> <span id="em-para"></span></div>
-              <div class="email-header-row"><b>Assunto:</b> <span id="em-assunto"></span></div>
+            <div class="email-hdr">
+              <div><b>Para:</b> <span id="em-para"></span></div>
+              <div><b>Assunto:</b> <span id="em-assunto"></span></div>
             </div>
             <div class="email-body" id="em-corpo"></div>
           </div>
@@ -535,121 +290,94 @@ Regularização básica perante órgãos fiscais, quando aplicável</textarea>
       </div>
     </div>
 
-    <!-- PAGE: FOLHETO -->
+    <!-- FOLHETO -->
     <div class="page" id="page-folheto">
       <div class="page-title">Folheto Informativo</div>
-      <div class="page-desc">Envie este resumo junto com o contrato para orientar seu cliente.</div>
-
+      <div class="page-desc">Envie junto com o contrato para orientar seu cliente.</div>
       <div class="card">
-        <div class="folheto-grid">
-          <div class="folheto-card">
-            <h3><span class="icon" style="background:#dbeafe;">📅</span> Datas importantes</h3>
-            <ul>
-              <li><b>Dia 20</b> – Vencimento do DAS-MEI</li>
-              <li><b>Até 31/maio</b> – DASN-SIMEI anual</li>
-              <li><b>Até 30/abril</b> – IRPF (quando devido)</li>
-              <li><b>Dia 07 ou 20</b> – FGTS (se houver funcionários)</li>
-              <li><b>Dia 10</b> – Entrega de documentos ao contador</li>
-            </ul>
-          </div>
-          <div class="folheto-card">
-            <h3><span class="icon" style="background:#dcfce7;">💰</span> Impostos do MEI</h3>
-            <ul>
-              <li><b>DAS</b> – Guia mensal unificada (INSS + ISS/ICMS)</li>
-              <li><b>ISS</b> – Para prestadores de serviço</li>
-              <li><b>ICMS</b> – Para comércio e indústria</li>
-              <li>Valores fixos mensais por atividade</li>
-              <li>Limite anual de faturamento: R$ 130.000</li>
-            </ul>
-          </div>
-          <div class="folheto-card">
-            <h3><span class="icon" style="background:#f3e8ff;">📋</span> Obrigações do MEI</h3>
-            <ul>
-              <li>Emitir nota fiscal quando exigido pelo cliente</li>
-              <li>Controlar o faturamento mensal com atenção</li>
-              <li>Guardar documentos por pelo menos 5 anos</li>
-              <li>Entregar a DASN-SIMEI todo ano</li>
-              <li>Não ultrapassar o limite de faturamento</li>
-              <li>Não ter sócio nem filial</li>
-            </ul>
-          </div>
-          <div class="folheto-card">
-            <h3><span class="icon" style="background:#fef3c7;">⚠️</span> O que pode cancelar o MEI</h3>
-            <ul>
-              <li>Faturamento acima de R$ 130.000/ano</li>
-              <li>Abertura de filial ou participação em outra empresa</li>
-              <li>Mais de 1 funcionário contratado</li>
-              <li>DAS em atraso por mais de 12 meses</li>
-              <li>DASN-SIMEI não entregue no prazo</li>
-            </ul>
-          </div>
-          <div class="folheto-card">
-            <h3><span class="icon" style="background:#fee2e2;">👥</span> MEI com funcionário</h3>
-            <ul>
-              <li>Pode ter apenas 1 funcionário</li>
-              <li>Salário mínimo ou piso da categoria</li>
-              <li>eSocial obrigatório para registro</li>
-              <li>FGTS: 8% sobre o salário</li>
-              <li>INSS patronal: 3% sobre o salário</li>
-              <li>Férias, 13º salário e FGTS são obrigatórios</li>
-            </ul>
-          </div>
-          <div class="folheto-card">
-            <h3><span class="icon" style="background:#e0f2fe;">📞</span> Como funciona nosso suporte</h3>
-            <ul>
-              <li>Dúvidas: entre em contato pelo WhatsApp</li>
-              <li>Envie documentos até o <b>dia 10 de cada mês</b></li>
-              <li>Alterações cadastrais: avise com antecedência</li>
-              <li>Novas atividades: consulte antes de iniciar</li>
-              <li>Mudança de endereço: informe em até 5 dias</li>
-            </ul>
-          </div>
+        <div class="folheto">
+          <div class="fcard"><h3>📅 Datas importantes</h3><ul>
+            <li><b>Dia 20</b> – Vencimento do DAS-MEI</li>
+            <li><b>Até 31/maio</b> – DASN-SIMEI anual</li>
+            <li><b>Até 30/abril</b> – IRPF (quando devido)</li>
+            <li><b>Dia 07 ou 20</b> – FGTS (se tiver funcionário)</li>
+            <li><b>Dia 10</b> – Entrega de docs ao contador</li>
+          </ul></div>
+          <div class="fcard"><h3>💰 Impostos do MEI</h3><ul>
+            <li><b>DAS</b> – Guia unificada (INSS + ISS/ICMS)</li>
+            <li><b>ISS</b> – Para prestadores de serviço</li>
+            <li><b>ICMS</b> – Para comércio e indústria</li>
+            <li>Valores fixos mensais por atividade</li>
+            <li>Limite anual: R$ 130.000</li>
+          </ul></div>
+          <div class="fcard"><h3>📋 Obrigações do MEI</h3><ul>
+            <li>Emitir nota fiscal quando solicitado</li>
+            <li>Controlar o faturamento mensal</li>
+            <li>Guardar documentos por 5 anos</li>
+            <li>Entregar DASN-SIMEI todo ano</li>
+            <li>Não ultrapassar o limite de faturamento</li>
+          </ul></div>
+          <div class="fcard"><h3>⚠️ O que pode cancelar o MEI</h3><ul>
+            <li>Faturamento acima de R$ 130.000/ano</li>
+            <li>Abrir filial ou entrar em outra empresa</li>
+            <li>Ter mais de 1 funcionário</li>
+            <li>DAS em atraso por mais de 12 meses</li>
+            <li>DASN-SIMEI não entregue no prazo</li>
+          </ul></div>
+          <div class="fcard"><h3>👥 MEI com funcionário</h3><ul>
+            <li>Apenas 1 funcionário permitido</li>
+            <li>Salário mínimo ou piso da categoria</li>
+            <li>eSocial obrigatório</li>
+            <li>FGTS: 8% + INSS patronal: 3%</li>
+            <li>Férias, 13º e FGTS são obrigatórios</li>
+          </ul></div>
+          <div class="fcard"><h3>📞 Nosso suporte</h3><ul>
+            <li>Dúvidas via WhatsApp</li>
+            <li>Documentos até o dia 10 de cada mês</li>
+            <li>Alterações: avise com antecedência</li>
+            <li>Novas atividades: consulte antes</li>
+          </ul></div>
         </div>
         <div class="btn-row">
-          <button class="btn" onclick="copiarFolheto()">Copiar conteúdo</button>
-          <button class="btn primary" onclick="imprimirFolheto()">
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-            Imprimir folheto
-          </button>
+          <button class="btn" onclick="copiarFolheto()">📋 Copiar conteúdo</button>
+          <button class="btn primary" onclick="window.print()">🖨️ Imprimir folheto</button>
         </div>
       </div>
     </div>
 
-    <!-- PAGE: CONFIGURAÇÕES -->
+    <!-- CONFIG -->
     <div class="page" id="page-config">
       <div class="page-title">Configurações</div>
-      <div class="page-desc">Configure os dados do seu escritório e a tabela de preços.</div>
-
+      <div class="page-desc">Configure os dados do escritório e a tabela de preços.</div>
       <div class="card">
-        <div class="card-title">dados do escritório contábil</div>
-        <div class="form-grid g2">
-          <div class="field"><label>Razão social do escritório</label><input type="text" id="cfg-razao" value="CONTABILIZY CONTABILIDADE E CONSULTORIA EMPRESARIAL LTDA" /></div>
-          <div class="field"><label>CNPJ do escritório</label><input type="text" id="cfg-cnpj" value="49.203.196/0001-00" /></div>
-          <div class="field"><label>Responsável técnica</label><input type="text" id="cfg-responsavel" placeholder="Nome do contador(a)" /></div>
-          <div class="field"><label>CRC</label><input type="text" id="cfg-crc" placeholder="CRC/RJ 000000/O-0" /></div>
-          <div class="field"><label>E-mail do escritório</label><input type="text" id="cfg-email" placeholder="contato@contabilizy.com.br" /></div>
-          <div class="field"><label>WhatsApp / Telefone</label><input type="text" id="cfg-tel" placeholder="(22) 99999-9999" /></div>
-          <div class="field"><label>Comarca / Foro</label><input type="text" id="cfg-foro" value="Armação dos Búzios/RJ" /></div>
-          <div class="field"><label>Dia de vencimento da mensalidade</label><input type="number" id="cfg-vencimento" value="16" min="1" max="28" /></div>
+        <div class="card-title">dados do escritório</div>
+        <div class="g2">
+          <div class="field"><label>Razão Social</label><input type="text" id="cfg-razao" value="CONTABILIZY CONTABILIDADE E CONSULTORIA EMPRESARIAL LTDA"></div>
+          <div class="field"><label>CNPJ</label><input type="text" id="cfg-cnpj" value="49.203.196/0001-00"></div>
+          <div class="field"><label>Responsável Técnica</label><input type="text" id="cfg-resp" placeholder="Nome do contador(a)"></div>
+          <div class="field"><label>CRC</label><input type="text" id="cfg-crc" placeholder="CRC/RJ 000000/O-0"></div>
+          <div class="field"><label>E-mail</label><input type="text" id="cfg-email" placeholder="contato@contabilizy.com.br"></div>
+          <div class="field"><label>WhatsApp</label><input type="text" id="cfg-tel" placeholder="(22) 99999-9999"></div>
+          <div class="field"><label>Comarca / Foro</label><input type="text" id="cfg-foro" value="Armação dos Búzios/RJ"></div>
+          <div class="field"><label>Dia vencimento</label><input type="number" id="cfg-venc" value="16" min="1" max="28"></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-title">tabela de preços base</div>
-        <div class="form-grid g3">
-          <div class="field"><label>MEI – honorário base (R$)</label><input type="number" id="cfg-mei" value="150" oninput="calcularPreco()" /></div>
-          <div class="field"><label>Simples Nacional – base (R$)</label><input type="number" id="cfg-simples" value="350" oninput="calcularPreco()" /></div>
-          <div class="field"><label>Lucro Presumido – base (R$)</label><input type="number" id="cfg-presumido" value="800" oninput="calcularPreco()" /></div>
-          <div class="field"><label>Lucro Real – base (R$)</label><input type="number" id="cfg-real" value="1500" oninput="calcularPreco()" /></div>
-          <div class="field"><label>Folha – valor por funcionário (R$)</label><input type="number" id="cfg-folha-func" value="60" oninput="calcularPreco()" /></div>
-          <div class="field"><label>Nota fiscal até 10/mês (R$)</label><input type="number" id="cfg-nf1" value="30" oninput="calcularPreco()" /></div>
-          <div class="field"><label>Nota fiscal +10/mês (R$)</label><input type="number" id="cfg-nf2" value="60" oninput="calcularPreco()" /></div>
-          <div class="field"><label>IRPF incluso (R$)</label><input type="number" id="cfg-irpf-val" value="50" oninput="calcularPreco()" /></div>
+        <div class="g3">
+          <div class="field"><label>MEI (R$)</label><input type="number" id="cfg-mei" value="150" oninput="calc()"></div>
+          <div class="field"><label>Simples Nacional (R$)</label><input type="number" id="cfg-simples" value="350" oninput="calc()"></div>
+          <div class="field"><label>Lucro Presumido (R$)</label><input type="number" id="cfg-pres" value="800" oninput="calc()"></div>
+          <div class="field"><label>Lucro Real (R$)</label><input type="number" id="cfg-real" value="1500" oninput="calc()"></div>
+          <div class="field"><label>Por funcionário (R$)</label><input type="number" id="cfg-func" value="60" oninput="calc()"></div>
+          <div class="field"><label>NF até 10/mês (R$)</label><input type="number" id="cfg-nf1" value="30" oninput="calc()"></div>
+          <div class="field"><label>NF +10/mês (R$)</label><input type="number" id="cfg-nf2" value="60" oninput="calc()"></div>
+          <div class="field"><label>IRPF (R$)</label><input type="number" id="cfg-irpf" value="50" oninput="calc()"></div>
         </div>
         <div class="btn-row">
-          <button class="btn primary" onclick="salvarConfig()">Salvar configurações</button>
+          <button class="btn primary" onclick="salvar()">✅ Salvar configurações</button>
         </div>
-        <div id="cfg-alerta" style="margin-top:10px;"></div>
+        <div id="cfg-ok" style="margin-top:10px"></div>
       </div>
     </div>
 
@@ -657,26 +385,26 @@ Regularização básica perante órgãos fiscais, quando aplicável</textarea>
 </div>
 
 <script>
-let dadosEmpresa = {};
-let precoCalculado = 0;
+var empresa = {};
+var precoFinal = 0;
 
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+function ir(id) {
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  document.querySelectorAll('.nav button').forEach(function(b){ b.classList.remove('active'); });
   document.getElementById('page-'+id).classList.add('active');
-  const ids = ['busca','preco','contrato','email','folheto','config'];
-  document.querySelectorAll('.nav-item')[ids.indexOf(id)].classList.add('active');
-  if(id === 'preco') calcularPreco();
+  var ids = ['busca','preco','contrato','email','folheto','config'];
+  document.querySelectorAll('.nav button')[ids.indexOf(id)].classList.add('active');
+  if(id === 'preco') calc();
 }
 
-function setAlerta(id, msg, tipo) {
-  const el = document.getElementById(id);
-  if(!msg) { el.innerHTML=''; return; }
-  el.innerHTML = `<div class="alert ${tipo}">${msg}</div>`;
+function alerta(id, msg, tipo) {
+  var el = document.getElementById(id);
+  if(!msg){ el.innerHTML=''; return; }
+  el.innerHTML = '<div class="alert '+tipo+'">'+msg+'</div>';
 }
 
-function mascararCNPJ(el) {
-  let v = el.value.replace(/\D/g,'');
+function maskCNPJ(el) {
+  var v = el.value.replace(/\D/g,'');
   if(v.length > 14) v = v.slice(0,14);
   v = v.replace(/^(\d{2})(\d)/,'$1.$2');
   v = v.replace(/^(\d{2})\.(\d{3})(\d)/,'$1.$2.$3');
@@ -685,391 +413,230 @@ function mascararCNPJ(el) {
   el.value = v;
 }
 
-async function buscarCNPJ() {
-  const raw = document.getElementById('cnpj-input').value.replace(/\D/g,'');
-  if(raw.length !== 14) { setAlerta('alerta-cnpj','CNPJ inválido. Verifique e tente novamente.','error'); return; }
-  const btn = document.getElementById('btn-buscar');
+function buscar() {
+  var raw = document.getElementById('inp-cnpj').value.replace(/\D/g,'');
+  if(raw.length !== 14) { alerta('alerta','CNPJ deve ter 14 dígitos.','error'); return; }
+  var btn = document.getElementById('btn-buscar');
   btn.innerHTML = '<span class="spinner"></span> Buscando...';
   btn.disabled = true;
-  setAlerta('alerta-cnpj','','');
-  try {
-    const apis = [
-      `https://brasilapi.com.br/api/cnpj/v1/${raw}`,
-      `https://publica.cnpj.ws/cnpj/${raw}`
-    ];
-    let d = null;
-    let origem = '';
-    for(const url of apis) {
-      try {
-        const res = await fetch(url);
-        if(res.ok) { const j = await res.json(); if(j && (j.razao_social||j.razao_social)) { d = j; origem = url; break; } }
-      } catch(e) {}
-    }
-    if(!d) throw new Error();
-    dadosEmpresa = d;
-    dadosEmpresa._origem = origem;
-    preencherResultado(d, origem);
-    document.getElementById('resultado-empresa').style.display = 'block';
-    setAlerta('alerta-cnpj','✓ Empresa encontrada com sucesso!','success');
-  } catch(e) {
-    setAlerta('alerta-cnpj','CNPJ não encontrado. Verifique o número ou tente novamente em instantes.','error');
-    document.getElementById('resultado-empresa').style.display = 'none';
-  }
-  btn.innerHTML = '<svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg> Buscar';
-  btn.disabled = false;
+  alerta('alerta','','');
+  fetch('https://brasilapi.com.br/api/cnpj/v1/'+raw)
+    .then(function(r){ if(!r.ok) throw new Error(); return r.json(); })
+    .then(function(d){
+      empresa = d;
+      var f = function(v){ return v||'—'; };
+      document.getElementById('r-razao').textContent = f(d.razao_social);
+      document.getElementById('r-fantasia').textContent = d.nome_fantasia ? 'Nome fantasia: '+d.nome_fantasia : '';
+      var sit = f(d.descricao_situacao_cadastral);
+      document.getElementById('r-sit').textContent = sit;
+      document.getElementById('r-cnpj').textContent = f(d.cnpj);
+      document.getElementById('r-nat').textContent = f(d.natureza_juridica);
+      document.getElementById('r-cnae').textContent = d.cnae_fiscal ? d.cnae_fiscal+' – '+(d.cnae_fiscal_descricao||'') : '—';
+      document.getElementById('r-porte').textContent = f(d.porte);
+      document.getElementById('r-aber').textContent = f(d.data_inicio_atividade);
+      var end = [d.logradouro,d.numero,d.complemento,d.bairro].filter(Boolean).join(', ');
+      document.getElementById('r-end').textContent = end||'—';
+      document.getElementById('r-mun').textContent = f(d.municipio)+' / '+f(d.uf)+'  CEP: '+f(d.cep);
+      document.getElementById('r-email').textContent = f(d.email);
+      document.getElementById('r-tel').textContent = d.ddd_telefone_1 ? '('+d.ddd_telefone_1+') '+(d.telefone_1||'') : '—';
+      document.getElementById('res-area').style.display = 'block';
+      alerta('alerta','✓ Empresa encontrada!','success');
+    })
+    .catch(function(){
+      alerta('alerta','CNPJ não encontrado. Verifique o número.','error');
+      document.getElementById('res-area').style.display = 'none';
+    })
+    .finally(function(){
+      btn.innerHTML = '🔍 Buscar';
+      btn.disabled = false;
+    });
 }
 
-function preencherResultado(d, origem) {
-  const f = v => v||'—';
-  const isPublica = origem && origem.includes('publica.cnpj.ws');
-  const razao = isPublica ? (d.razao_social||d.nome_empresarial||'') : (d.razao_social||'');
-  const fantasia = isPublica ? (d.nome_fantasia||'') : (d.nome_fantasia||'');
-  const situacao = isPublica ? (d.situacao_cadastral?.descricao||d.situacao||'') : (d.descricao_situacao_cadastral||d.situacao||'');
-  const cnpj = d.cnpj||d.ni||raw||'';
-  const natureza = isPublica ? (d.natureza_juridica?.descricao||'') : (d.natureza_juridica||'');
-  const cnae = isPublica
-    ? (d.cnae_fiscal_principal ? d.cnae_fiscal_principal.codigo+' – '+d.cnae_fiscal_principal.descricao : (d.cnaes_secundarios?.[0] ? '' : '—'))
-    : (d.cnae_fiscal ? d.cnae_fiscal+' – '+(d.cnae_fiscal_descricao||'') : '—');
-  const porte = isPublica ? (d.porte?.descricao||'') : (d.porte||'');
-  const abertura = isPublica ? (d.data_inicio_atividade||'') : (d.data_inicio_atividade||'');
-  const logradouro = isPublica ? (d.endereco?.logradouro||'') : (d.logradouro||'');
-  const numero = isPublica ? (d.endereco?.numero||'') : (d.numero||'');
-  const compl = isPublica ? (d.endereco?.complemento||'') : (d.complemento||'');
-  const bairro = isPublica ? (d.endereco?.bairro||'') : (d.bairro||'');
-  const municipio = isPublica ? (d.endereco?.municipio||'') : (d.municipio||'');
-  const uf = isPublica ? (d.endereco?.uf||'') : (d.uf||'');
-  const cep = isPublica ? (d.endereco?.cep||'') : (d.cep||'');
-  const email = isPublica ? '' : (d.email||'');
-  const telefone = isPublica ? '' : (d.ddd_telefone_1 ? '('+d.ddd_telefone_1+') '+(d.telefone_1||'') : '');
-
-  document.getElementById('res-razao').textContent = razao||'—';
-  document.getElementById('res-fantasia').textContent = fantasia ? 'Nome fantasia: '+fantasia : '';
-  const sit = situacao||'—';
-  const badge = document.getElementById('res-situacao');
-  badge.textContent = sit;
-  badge.className = 'badge ' + (sit.toLowerCase().includes('ativa') ? 'green' : 'warn');
-  document.getElementById('res-cnpj').textContent = cnpj||'—';
-  document.getElementById('res-natureza').textContent = natureza||'—';
-  document.getElementById('res-cnae').textContent = cnae;
-  document.getElementById('res-porte').textContent = porte||'—';
-  document.getElementById('res-abertura').textContent = abertura||'—';
-  const endStr = [logradouro, numero, compl, bairro].filter(Boolean).join(', ');
-  document.getElementById('res-endereco').textContent = endStr||'—';
-  document.getElementById('res-municipio').textContent = `${municipio||'—'} / ${uf||'—'}  –  CEP: ${cep||'—'}`;
-  document.getElementById('res-email').textContent = email||'—';
-  document.getElementById('res-telefone').textContent = telefone||'—';
-
-  dadosEmpresa._parsed = { razao, cnpj, natureza, porte, abertura, logradouro, numero, compl, bairro, municipio, uf, cep, email, telefone };
-}
-
-function transferirDados() {
-  const d = dadosEmpresa;
-  const p = d._parsed || d;
-  const end = p._parsed ? '' : [p.logradouro, p.numero, p.compl||p.complemento, p.bairro].filter(Boolean).join(', ');
-  const endFinal = p.logradouro ? [p.logradouro, p.numero, p.compl, p.bairro].filter(Boolean).join(', ') : end;
-  document.getElementById('ct-razao').value = p.razao||p.razao_social||'';
-  document.getElementById('ct-cnpj').value = p.cnpj||d.cnpj||'';
-  document.getElementById('ct-endereco').value = endFinal;
-  document.getElementById('ct-municipio').value = `${p.municipio||d.municipio||''} / ${p.uf||d.uf||''} – CEP ${p.cep||d.cep||''}`;"
-  const resp = document.getElementById('campo-responsavel').value;
-  const cpf = document.getElementById('campo-cpf').value;
-  if(resp) document.getElementById('ct-responsavel').value = resp;
-  if(cpf) document.getElementById('ct-cpf').value = cpf;
-  const email = document.getElementById('campo-email-cliente').value;
+function usarDados() {
+  var d = empresa;
+  var end = [d.logradouro,d.numero,d.complemento,d.bairro].filter(Boolean).join(', ');
+  document.getElementById('ct-razao').value = d.razao_social||'';
+  document.getElementById('ct-cnpj').value = d.cnpj||'';
+  document.getElementById('ct-end').value = end;
+  document.getElementById('ct-mun').value = (d.municipio||'')+' / '+(d.uf||'')+' – CEP '+(d.cep||'');
+  var resp = document.getElementById('c-resp').value;
+  if(resp) { document.getElementById('ct-resp').value = resp; document.getElementById('em-nome').value = resp; }
+  var email = document.getElementById('c-email').value;
   if(email) document.getElementById('em-email').value = email;
-  if(resp) document.getElementById('em-nome').value = resp;
-  const trib = document.getElementById('campo-tributacao').value;
-  document.getElementById('ct-tributacao').value = trib;
-  const pTrib = {MEI:'MEI','Simples Nacional':'simples','Lucro Presumido':'presumido','Lucro Real':'real'};
-  document.getElementById('p-tributacao').value = pTrib[trib]||'MEI';
-  const func = document.getElementById('campo-funcionarios').value;
-  document.getElementById('p-func').value = func;
+  ir('preco');
 }
 
-function usarEmpresa() {
-  transferirDados();
-  showPage('preco');
+function irContrato() {
+  var d = empresa;
+  var end = [d.logradouro,d.numero,d.complemento,d.bairro].filter(Boolean).join(', ');
+  document.getElementById('ct-razao').value = d.razao_social||'';
+  document.getElementById('ct-cnpj').value = d.cnpj||'';
+  document.getElementById('ct-end').value = end;
+  document.getElementById('ct-mun').value = (d.municipio||'')+' / '+(d.uf||'');
+  ir('contrato');
 }
 
-function usarEmpresaContrato() {
-  transferirDados();
-  showPage('contrato');
-}
-
-function calcularPreco() {
-  const trib = document.getElementById('p-tributacao').value;
-  const func = parseInt(document.getElementById('p-func').value)||0;
-  const nf = parseInt(document.getElementById('p-nf').value)||0;
-  const irpf = parseInt(document.getElementById('p-irpf').value)||0;
-  const compl = parseFloat(document.getElementById('p-complexidade').value)||1;
-
-  const getMei = () => parseFloat(document.getElementById('cfg-mei')?.value)||150;
-  const getSimples = () => parseFloat(document.getElementById('cfg-simples')?.value)||350;
-  const getPresumido = () => parseFloat(document.getElementById('cfg-presumido')?.value)||800;
-  const getReal = () => parseFloat(document.getElementById('cfg-real')?.value)||1500;
-  const getFolha = () => parseFloat(document.getElementById('cfg-folha-func')?.value)||60;
-  const getNf1 = () => parseFloat(document.getElementById('cfg-nf1')?.value)||30;
-  const getNf2 = () => parseFloat(document.getElementById('cfg-nf2')?.value)||60;
-  const getIrpf = () => parseFloat(document.getElementById('cfg-irpf-val')?.value)||50;
-
-  const bases = { MEI: getMei(), simples: getSimples(), presumido: getPresumido(), real: getReal() };
-  const base = (bases[trib]||150) * compl;
-  const folha = func * getFolha();
-  const nfValor = nf === 1 ? getNf1() : nf === 2 ? getNf2() : 0;
-  const irpfTotal = irpf ? getIrpf() : 0;
-  const extras = nfValor + irpfTotal;
-  const total = base + folha + extras;
-  precoCalculado = total;
-
-  const fmt = v => 'R$ ' + Math.round(v).toLocaleString('pt-BR');
-  const fmtD = v => 'R$ ' + v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+function calc() {
+  var trib = document.getElementById('p-trib').value;
+  var func = parseInt(document.getElementById('p-func').value)||0;
+  var nf = parseInt(document.getElementById('p-nf').value)||0;
+  var irpf = parseInt(document.getElementById('p-irpf').value)||0;
+  var comp = parseFloat(document.getElementById('p-comp').value)||1;
+  var bases = {
+    MEI: parseFloat(document.getElementById('cfg-mei').value)||150,
+    simples: parseFloat(document.getElementById('cfg-simples').value)||350,
+    presumido: parseFloat(document.getElementById('cfg-pres').value)||800,
+    real: parseFloat(document.getElementById('cfg-real').value)||1500
+  };
+  var base = (bases[trib]||150) * comp;
+  var folha = func * (parseFloat(document.getElementById('cfg-func').value)||60);
+  var nfv = nf===1 ? (parseFloat(document.getElementById('cfg-nf1').value)||30) : nf===2 ? (parseFloat(document.getElementById('cfg-nf2').value)||60) : 0;
+  var irpfv = irpf ? (parseFloat(document.getElementById('cfg-irpf').value)||50) : 0;
+  var total = base + folha + nfv + irpfv;
+  precoFinal = total;
+  var fmt = function(v){ return 'R$ '+Math.round(v).toLocaleString('pt-BR'); };
+  var fmtD = function(v){ return 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); };
   document.getElementById('m-base').textContent = fmt(base);
   document.getElementById('m-folha').textContent = fmt(folha);
-  document.getElementById('m-extras').textContent = fmt(extras);
+  document.getElementById('m-ext').textContent = fmt(nfv+irpfv);
   document.getElementById('m-total').textContent = fmt(total);
   document.getElementById('preco-final').textContent = fmtD(total);
-
-  const tribLabels = {MEI:'MEI',simples:'Simples Nacional',presumido:'Lucro Presumido',real:'Lucro Real'};
-  const rows = [
-    ['Base – '+tribLabels[trib]+(compl>1?' × fator complexidade':''), base],
-    folha > 0 ? ['Folha de pagamento ('+func+' func. × R$ '+getFolha()+')', folha] : null,
-    nfValor > 0 ? ['Emissão de notas fiscais', nfValor] : null,
-    irpfTotal > 0 ? ['IRPF – Declaração anual inclusa', irpfTotal] : null,
-  ].filter(Boolean);
-  rows.push(['total', total]);
-
-  document.getElementById('composicao-table').innerHTML = rows.map((r,i) =>
-    i === rows.length-1
-      ? `<tr class="total"><td>Total mensal sugerido</td><td>${fmtD(r[1])}</td></tr>`
-      : `<tr><td style="color:var(--gray-600)">${r[0]}</td><td>${fmtD(r[1])}</td></tr>`
-  ).join('');
+  var nomes = {MEI:'MEI',simples:'Simples Nacional',presumido:'Lucro Presumido',real:'Lucro Real'};
+  var rows = '<tr><td>Base – '+nomes[trib]+(comp>1?' × complexidade':'')+'</td><td style="text-align:right;font-weight:500">'+fmtD(base)+'</td></tr>';
+  if(folha>0) rows += '<tr><td>Folha ('+func+' func.)</td><td style="text-align:right;font-weight:500">'+fmtD(folha)+'</td></tr>';
+  if(nfv>0) rows += '<tr><td>Notas fiscais</td><td style="text-align:right;font-weight:500">'+fmtD(nfv)+'</td></tr>';
+  if(irpfv>0) rows += '<tr><td>IRPF</td><td style="text-align:right;font-weight:500">'+fmtD(irpfv)+'</td></tr>';
+  rows += '<tr class="total"><td>Total mensal</td><td style="text-align:right">'+fmtD(total)+'</td></tr>';
+  document.getElementById('comp-tbl').innerHTML = rows;
   document.getElementById('ct-valor').value = total.toFixed(2);
 }
 
-function atualizarAjuste() {
-  const v = parseFloat(document.getElementById('preco-ajustado').value)||0;
-  if(v > 0) { document.getElementById('ct-valor').value = v.toFixed(2); precoCalculado = v; }
+function ajuste() {
+  var v = parseFloat(document.getElementById('p-ajuste').value)||0;
+  if(v>0){ precoFinal=v; document.getElementById('ct-valor').value=v.toFixed(2); }
 }
 
-function irParaContrato() { showPage('contrato'); }
-
-function salvarConfig() {
-  calcularPreco();
-  setAlerta('cfg-alerta','✓ Configurações salvas com sucesso!','success');
-  setTimeout(()=>setAlerta('cfg-alerta','',''), 3000);
+function salvar() {
+  calc();
+  alerta('cfg-ok','✓ Configurações salvas!','success');
+  setTimeout(function(){ alerta('cfg-ok','',''); }, 3000);
 }
 
 function gerarContrato() {
-  const razao = document.getElementById('ct-razao').value || '_______________________________';
-  const cnpj = document.getElementById('ct-cnpj').value || '_______________________________';
-  const resp = document.getElementById('ct-responsavel').value || '_______________________________';
-  const cpf = document.getElementById('ct-cpf').value || '_______________________________';
-  const end = document.getElementById('ct-endereco').value || '_______________________________';
-  const mun = document.getElementById('ct-municipio').value || '_______________________________';
-  const valor = parseFloat(document.getElementById('ct-valor').value)||0;
-  const trib = document.getElementById('ct-tributacao').value;
-  const servicos = document.getElementById('ct-servicos').value.split('\n').filter(s=>s.trim()).map(s=>'   • '+s.trim()).join('\n');
-  const venc = document.getElementById('cfg-vencimento')?.value || '16';
-  const foro = document.getElementById('cfg-foro')?.value || 'Armação dos Búzios/RJ';
-  const esc = document.getElementById('cfg-razao')?.value || 'CONTABILIZY CONTABILIDADE E CONSULTORIA EMPRESARIAL LTDA';
-  const cnpjEsc = document.getElementById('cfg-cnpj')?.value || '49.203.196/0001-00';
-  const valorExt = valor.toLocaleString('pt-BR',{minimumFractionDigits:2});
-  const hoje = new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
+  var razao = document.getElementById('ct-razao').value||'_______________________';
+  var cnpj = document.getElementById('ct-cnpj').value||'_______________________';
+  var resp = document.getElementById('ct-resp').value||'_______________________';
+  var cpf = document.getElementById('ct-cpf').value||'_______________________';
+  var end = document.getElementById('ct-end').value||'_______________________';
+  var mun = document.getElementById('ct-mun').value||'_______________________';
+  var valor = parseFloat(document.getElementById('ct-valor').value)||0;
+  var trib = document.getElementById('ct-trib').value;
+  var servicos = document.getElementById('ct-servicos').value.split('\n').filter(function(s){return s.trim();}).map(function(s){return '   • '+s.trim();}).join('\n');
+  var venc = document.getElementById('cfg-venc').value||'16';
+  var foro = document.getElementById('cfg-foro').value||'Armação dos Búzios/RJ';
+  var esc = document.getElementById('cfg-razao').value||'CONTABILIZY CONTABILIDADE E CONSULTORIA EMPRESARIAL LTDA';
+  var cnpjEsc = document.getElementById('cfg-cnpj').value||'49.203.196/0001-00';
+  var valorExt = valor.toLocaleString('pt-BR',{minimumFractionDigits:2});
+  var hoje = new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
 
-  const txt = `CONTRATO DE PRESTAÇÃO DE SERVIÇOS CONTÁBEIS
-${trib}
-${'─'.repeat(60)}
+  var txt = 'CONTRATO DE PRESTAÇÃO DE SERVIÇOS CONTÁBEIS\n';
+  txt += 'Tributação: '+trib+'\n';
+  txt += '─'.repeat(55)+'\n\n';
+  txt += 'CONTRATANTE:\n';
+  txt += '   Razão Social: '+razao+'\n';
+  txt += '   CNPJ/CPF: '+cnpj+'\n';
+  txt += '   Responsável: '+resp+'   CPF: '+cpf+'\n';
+  txt += '   Endereço: '+end+'\n';
+  txt += '   Município/UF: '+mun+'\n\n';
+  txt += 'CONTRATADA:\n';
+  txt += '   '+esc+'\n';
+  txt += '   CNPJ: '+cnpjEsc+'\n\n';
+  txt += '─'.repeat(55)+'\n';
+  txt += 'CLÁUSULA 1ª – DO OBJETO\n\n';
+  txt += 'O presente contrato tem por objeto a prestação de serviços contábeis para '+trib+':\n\n';
+  txt += servicos+'\n\n';
+  txt += 'Parágrafo único: Não estão incluídos serviços extraordinários (defesa administrativa, parcelamentos, folha de pagamento, eSocial, processos judiciais), cobrados à parte.\n\n';
+  txt += 'CLÁUSULA 2ª – DAS OBRIGAÇÕES DA CONTABILIDADE\n\n';
+  txt += 'Executar os serviços com diligência, técnica e observância da legislação vigente, mantendo sigilo absoluto sobre as informações do CONTRATANTE (LGPD – Lei 13.709/2018).\n\n';
+  txt += 'CLÁUSULA 3ª – DAS OBRIGAÇÕES DO CONTRATANTE\n\n';
+  txt += 'Entregar documentos até o dia 10 de cada mês, informar o faturamento corretamente, comunicar alterações em 5 dias úteis e efetuar o pagamento no prazo.\n\n';
+  txt += 'CLÁUSULA 4ª – DO VALOR E FORMA DE PAGAMENTO\n\n';
+  txt += 'Honorário mensal: R$ '+valorExt+', vencimento dia '+venc+' de cada mês.\n';
+  txt += 'Pagamento via PIX ou transferência. Atraso: multa 2% + juros 1% ao mês.\n\n';
+  txt += 'CLÁUSULA 5ª – DA VIGÊNCIA\n\nPrazo indeterminado, a partir da assinatura.\n\n';
+  txt += 'CLÁUSULA 6ª – DA RESCISÃO\n\nAviso prévio de 30 dias por qualquer das partes.\n\n';
+  txt += 'CLÁUSULA 7ª – DO FORO\n\nComarca de '+foro+'.\n\n';
+  txt += '─'.repeat(55)+'\n';
+  txt += hoje+'\n\n';
+  txt += '________________________________________\n'+razao+'\nCNPJ/CPF: '+cnpj+'\nCONTRATANTE\n\n';
+  txt += '________________________________________\n'+esc+'\nCNPJ: '+cnpjEsc+'\nCONTRATADA\n\n';
+  txt += 'TESTEMUNHAS:\n\n';
+  txt += '____________________________    ____________________________\nNome:                           Nome:\nCPF:                            CPF:';
 
-Pelo presente instrumento particular, as partes abaixo qualificadas celebram o presente Contrato de Prestação de Serviços Contábeis:
-
-CONTRATANTE:
-   Razão Social/Nome: ${razao}
-   CNPJ/CPF: ${cnpj}
-   Responsável: ${resp}
-   CPF: ${cpf}
-   Endereço: ${end}
-   Município/UF/CEP: ${mun}
-
-CONTRATADA:
-   ${esc}
-   CNPJ: ${cnpjEsc}
-
-${'─'.repeat(60)}
-CLÁUSULA 1ª – DO OBJETO
-
-O presente contrato tem por objeto a prestação de serviços contábeis para ${trib}, compreendendo:
-
-${servicos}
-
-Parágrafo único: Não estão incluídos serviços extraordinários (defesa administrativa, parcelamentos especiais, folha de pagamento, eSocial, processos judiciais ou administrativos), os quais serão orçados à parte.
-
-CLÁUSULA 2ª – DAS OBRIGAÇÕES DA CONTABILIDADE
-
-A CONTABILIDADE compromete-se a executar os serviços com diligência, técnica e em observância da legislação vigente, mantendo sigilo absoluto sobre as informações do CONTRATANTE, nos termos da LGPD (Lei nº 13.709/2018).
-
-CLÁUSULA 3ª – DAS OBRIGAÇÕES DO CONTRATANTE
-
-O CONTRATANTE obriga-se a: (i) entregar todos os documentos até o dia 10 de cada mês; (ii) informar corretamente o faturamento mensal; (iii) comunicar alterações cadastrais em até 5 dias úteis; (iv) efetuar o pagamento até a data de vencimento.
-
-Parágrafo único: A não entrega dos documentos até o dia 10 isenta a CONTABILIDADE de responsabilidade por multas, juros ou penalidades decorrentes do atraso.
-
-CLÁUSULA 4ª – DO VALOR E FORMA DE PAGAMENTO
-
-Pelos serviços prestados, o CONTRATANTE pagará à CONTABILIDADE o valor mensal de R$ ${valorExt}, com vencimento todo dia ${venc} de cada mês.
-
-§ 1º – Pagamento via PIX ou transferência bancária, conforme dados fornecidos pela CONTABILIDADE.
-§ 2º – O não pagamento no vencimento acarretará multa de 2% e juros de 1% ao mês.
-§ 3º – Atraso superior a 15 dias autoriza a suspensão imediata dos serviços.
-§ 4º – O valor será reajustado anualmente pelo IGPM/FGV ou índice substituto.
-
-CLÁUSULA 5ª – DA VIGÊNCIA
-
-O contrato tem prazo indeterminado, com início na data de assinatura.
-
-CLÁUSULA 6ª – DA RESCISÃO
-
-Qualquer das partes poderá rescindir mediante aviso prévio de 30 (trinta) dias. Em caso de inadimplência ou descumprimento contratual, a rescisão é imediata.
-
-CLÁUSULA 7ª – DA RESPONSABILIDADE
-
-A CONTABILIDADE não se responsabiliza por multas decorrentes de informações incorretas ou documentos entregues fora do prazo pelo CONTRATANTE.
-
-CLÁUSULA 8ª – DA CONFIDENCIALIDADE E LGPD
-
-As partes se comprometem ao sigilo total sobre as informações trocadas, nos termos da Lei nº 13.709/2018 (LGPD).
-
-CLÁUSULA 9ª – DA INEXISTÊNCIA DE VÍNCULO EMPREGATÍCIO
-
-O presente contrato não gera vínculo empregatício, societário ou de subordinação entre as partes.
-
-CLÁUSULA 10ª – DO FORO
-
-Fica eleito o foro da comarca de ${foro}, com renúncia a qualquer outro.
-
-${'─'.repeat(60)}
-${hoje}
-
-________________________________________
-${razao}
-CNPJ/CPF: ${cnpj}
-CONTRATANTE
-
-________________________________________
-${esc}
-CNPJ: ${cnpjEsc}
-CONTRATADA
-
-TESTEMUNHAS:
-
-____________________________    ____________________________
-Nome:                           Nome:
-CPF:                            CPF:`;
-
-  document.getElementById('texto-contrato').textContent = txt;
-  document.getElementById('preview-contrato').style.display = 'block';
-  document.getElementById('em-nome').value = resp !== '_______________________________' ? resp : document.getElementById('em-nome').value;
+  document.getElementById('txt-contrato').textContent = txt;
+  document.getElementById('prev-contrato').style.display = 'block';
+  document.getElementById('em-nome').value = resp !== '_______________________' ? resp : document.getElementById('em-nome').value;
 }
 
 function copiarContrato() {
-  const t = document.getElementById('texto-contrato').textContent;
-  if(!t) { gerarContrato(); return; }
-  navigator.clipboard.writeText(t).then(()=>{
-    const btn = event.target.closest('button');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✓ Copiado!';
-    setTimeout(()=>btn.innerHTML=orig, 2000);
-  });
-}
-
-function imprimirContrato() {
-  const t = document.getElementById('texto-contrato').textContent;
-  if(!t) { gerarContrato(); return; }
-  const w = window.open('','_blank');
-  w.document.write(`<html><head><title>Contrato</title><style>body{font-family:Georgia,serif;font-size:13px;line-height:2;max-width:800px;margin:40px auto;white-space:pre-wrap;padding:40px;}@media print{body{margin:0;padding:20px;}}</style></head><body>${t.replace(/</g,'&lt;')}</body></html>`);
-  w.document.close();
-  w.print();
+  var t = document.getElementById('txt-contrato').textContent;
+  if(!t){ gerarContrato(); return; }
+  navigator.clipboard.writeText(t);
+  alert('Contrato copiado!');
 }
 
 function gerarEmail() {
-  const nome = document.getElementById('em-nome').value || 'cliente';
-  const extra = document.getElementById('em-extra').value;
-  const esc = document.getElementById('cfg-razao')?.value || 'CONTABILIZY';
-  const tel = document.getElementById('cfg-tel')?.value || '(00) 00000-0000';
-  const emailEsc = document.getElementById('cfg-email')?.value || 'contato@escritorio.com.br';
-  const razao = document.getElementById('ct-razao').value;
-  const valor = parseFloat(document.getElementById('ct-valor').value)||0;
-  const venc = document.getElementById('cfg-vencimento')?.value || '16';
-  const email = document.getElementById('em-email').value;
-
-  const assunto = `Bem-vindo(a) à ${esc} – Contrato e Documentos`;
-  document.getElementById('em-para').textContent = `${nome} <${email||'...'}>`; 
+  var nome = document.getElementById('em-nome').value||'cliente';
+  var email = document.getElementById('em-email').value||'...';
+  var obs = document.getElementById('em-obs').value;
+  var esc = document.getElementById('cfg-razao').value||'CONTABILIZY';
+  var tel = document.getElementById('cfg-tel').value||'(00) 00000-0000';
+  var emailEsc = document.getElementById('cfg-email').value||'contato@escritorio.com.br';
+  var razao = document.getElementById('ct-razao').value||'sua empresa';
+  var valor = parseFloat(document.getElementById('ct-valor').value)||0;
+  var venc = document.getElementById('cfg-venc').value||'16';
+  var assunto = 'Bem-vindo(a) à '+esc+' – Contrato e Documentos';
+  document.getElementById('em-para').textContent = nome+' <'+email+'>';
   document.getElementById('em-assunto').textContent = assunto;
-
-  const corpo = `Olá, ${nome.split(' ')[0]}!
-
-Seja muito bem-vindo(a) à ${esc}! É um prazer tê-lo(a) como cliente.
-
-Segue em anexo o contrato de prestação de serviços contábeis referente à empresa ${razao||'sua empresa'}, bem como o folheto com informações sobre suas obrigações, impostos e datas importantes.
-
-RESUMO DO CONTRATO:
-  • Honorário mensal: R$ ${valor.toLocaleString('pt-BR',{minimumFractionDigits:2})}
-  • Vencimento: todo dia ${venc} de cada mês
-  • Pagamento via PIX ou transferência bancária
-
-PRÓXIMOS PASSOS:
-  1. Assine o contrato e nos envie uma via assinada
-  2. Guarde a data: documentos enviados até o dia 10 de cada mês
-  3. Em caso de dúvidas, entre em contato conosco!
-${extra ? '\n'+extra+'\n' : ''}
-Para qualquer dúvida, estamos à disposição:
-  📱 WhatsApp: ${tel}
-  📧 ${emailEsc}
-
-Obrigado pela confiança!
-
-Atenciosamente,
-${esc}`;
-
+  var corpo = 'Olá, '+nome.split(' ')[0]+'!\n\n';
+  corpo += 'Seja muito bem-vindo(a) à '+esc+'! É um prazer tê-lo(a) como cliente.\n\n';
+  corpo += 'Segue em anexo o contrato de prestação de serviços contábeis referente à empresa '+razao+'.\n\n';
+  corpo += 'RESUMO DO CONTRATO:\n';
+  corpo += '  • Honorário mensal: R$ '+valor.toLocaleString('pt-BR',{minimumFractionDigits:2})+'\n';
+  corpo += '  • Vencimento: todo dia '+venc+' de cada mês\n';
+  corpo += '  • Pagamento via PIX ou transferência\n\n';
+  corpo += 'PRÓXIMOS PASSOS:\n';
+  corpo += '  1. Assine o contrato e nos envie uma via\n';
+  corpo += '  2. Envie documentos até o dia 10 de cada mês\n';
+  corpo += '  3. Dúvidas, fale conosco!\n';
+  if(obs) corpo += '\n'+obs+'\n';
+  corpo += '\nContato:\n  📱 '+tel+'\n  📧 '+emailEsc+'\n\nObrigado pela confiança!\n\n'+esc;
   document.getElementById('em-corpo').textContent = corpo;
-  document.getElementById('preview-email').style.display = 'block';
+  document.getElementById('prev-email').style.display = 'block';
 }
 
 function copiarEmail() {
-  const t = document.getElementById('em-corpo').textContent;
-  if(!t) { gerarEmail(); return; }
-  navigator.clipboard.writeText(t).then(()=>{
-    const btn = event.target.closest('button');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✓ Copiado!';
-    setTimeout(()=>btn.innerHTML=orig, 2000);
-  });
+  var t = document.getElementById('em-corpo').textContent;
+  if(!t){ gerarEmail(); return; }
+  navigator.clipboard.writeText(t);
+  alert('E-mail copiado!');
 }
 
 function copiarFolheto() {
-  const linhas = [];
-  document.querySelectorAll('.folheto-card').forEach(card => {
-    linhas.push('\n' + card.querySelector('h3').textContent.trim());
-    card.querySelectorAll('li').forEach(li => linhas.push('  • ' + li.textContent.trim()));
+  var txt = '';
+  document.querySelectorAll('.fcard').forEach(function(c){
+    txt += '\n'+c.querySelector('h3').textContent+'\n';
+    c.querySelectorAll('li').forEach(function(li){ txt += '  • '+li.textContent+'\n'; });
   });
-  navigator.clipboard.writeText(linhas.join('\n')).then(()=>{
-    const btn = event.target.closest('button');
-    const orig = btn.innerHTML;
-    btn.innerHTML = '✓ Copiado!';
-    setTimeout(()=>btn.innerHTML=orig, 2000);
-  });
+  navigator.clipboard.writeText(txt);
+  alert('Folheto copiado!');
 }
 
-function imprimirFolheto() {
-  window.print();
-}
+setInterval(function(){
+  document.getElementById('relogio').textContent = new Date().toLocaleString('pt-BR');
+}, 1000);
 
-function atualizarRelogio() {
-  const now = new Date();
-  document.getElementById('clock').textContent = now.toLocaleString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
-}
-setInterval(atualizarRelogio, 1000);
-atualizarRelogio();
-calcularPreco();
+calc();
 </script>
 </body>
 </html>
