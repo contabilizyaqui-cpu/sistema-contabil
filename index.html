@@ -95,6 +95,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background
 @media print{body{background:#fff}.header,.sidebar,.btn-row,.tsel,.ctitle,.ptitle,.pdesc,.card > .ctitle{display:none!important}.layout,.main{display:block;padding:0}.page{display:none!important}#print-area{display:block!important}.card{border:none;box-shadow:none;padding:0}}
 #print-area{display:none}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <div class="header">
@@ -218,7 +219,8 @@ Regularização básica perante órgãos fiscais</textarea>
         <div class="field"><label>E-mail</label><input type="text" id="em-email" placeholder="cliente@email.com"></div>
       </div>
       <div class="field" style="margin-top:12px"><label>Observação adicional</label><textarea id="em-obs" placeholder="Informação extra..." style="min-height:50px"></textarea></div>
-      <div class="btn-row"><button class="btn primary" onclick="gerarEmail()">📧 Gerar e-mail</button><button class="btn" onclick="copiarEmail()">📋 Copiar</button></div></div>
+      <div class="btn-row"><button class="btn primary" onclick="gerarEmail()">📧 Gerar prévia</button><button class="btn" onclick="copiarEmail()">📋 Copiar</button><button class="btn success" id="btn-enviar" onclick="enviarEmail()">🚀 Enviar e-mail agora</button></div></div>
+      <div id="alerta-email" style="margin-top:10px"></div>
       <div id="prev-email" style="display:none"><div class="card"><div class="ctitle">prévia</div>
         <div class="email-box"><div class="email-hdr"><div><b>Para:</b> <span id="em-para"></span></div><div><b>Assunto:</b> <span id="em-assunto"></span></div></div>
         <div class="email-body" id="em-corpo"></div></div></div></div>
@@ -562,8 +564,36 @@ setInterval(function(){ document.getElementById("relogio").textContent=new Date(
 selTipo("MEI");
 calc();
 carregarCfg();
-// Ativar primeiro botão do nav
 document.getElementById("nb-busca").classList.add("active");
+emailjs.init("SiKbMIxVCmRExozAM");
+
+function enviarEmail() {
+  var nome = gv("em-nome","");
+  var email = gv("em-email","");
+  if(!nome){ alert("Preencha o nome do cliente."); return; }
+  if(!email || !email.includes("@")){ alert("Preencha um e-mail válido."); return; }
+  gerarEmail();
+  var corpo = document.getElementById("em-corpo").textContent;
+  var assunto = document.getElementById("em-assunto").textContent;
+  var btn = document.getElementById("btn-enviar");
+  btn.innerHTML = "<span class=\"spinner\"></span> Enviando...";
+  btn.disabled = true;
+  alerta("alerta-email","","");
+  emailjs.send("service_otd95fx", "template_727xw7k", {
+    to_email: email,
+    subject: assunto,
+    message: corpo,
+    name: nome
+  }).then(function() {
+    alerta("alerta-email","✓ E-mail enviado com sucesso para " + email + "!","success");
+    btn.innerHTML = "🚀 Enviar e-mail agora";
+    btn.disabled = false;
+  }, function(err) {
+    alerta("alerta-email","Erro ao enviar: " + JSON.stringify(err) + ". Verifique as configurações do EmailJS.","error");
+    btn.innerHTML = "🚀 Enviar e-mail agora";
+    btn.disabled = false;
+  });
+}
 </script>
 </body>
 </html>
