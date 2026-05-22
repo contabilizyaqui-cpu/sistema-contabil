@@ -72,7 +72,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background
 .email-body{padding:16px;font-size:13px;line-height:1.9;white-space:pre-wrap}
 .prev-wrap{background:#f8fafc;border:1.5px solid #e2e8f0;border-radius:10px;padding:1.5rem;max-height:550px;overflow-y:auto}
 /* CONTRATO VISUAL */
-.cv{font-family:Georgia,serif;font-size:12pt;line-height:1.8;color:#000}
+.cv{font-family:Arial,sans-serif;font-size:12pt;line-height:1.8;color:#000}
 .cv-hdr{background:#1F3864;color:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;border-radius:6px 6px 0 0}
 .cv-hdr img{height:45px;background:#fff;padding:3px;border-radius:3px}
 .cv-hdr-txt{text-align:right}.cv-hdr-txt h1{font-size:12pt;font-weight:700;color:#fff}.cv-hdr-txt p{font-size:9pt;color:#93c5fd}
@@ -495,7 +495,7 @@ function imprimirPDF() {
   gerarContrato();
   var c = document.getElementById("wrap-contrato").innerHTML;
   var w2 = window.open("","_blank","width=900,height=700");
-  var css = "*{box-sizing:border-box;margin:0;padding:0}body{font-family:Georgia,serif;background:#fff;padding:20px}.cv{max-width:800px;margin:0 auto;font-size:11pt;line-height:1.8}.cv-hdr{background:#1F3864;color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;border-radius:5px 5px 0 0}.cv-hdr img{height:42px;background:#fff;padding:3px;border-radius:3px}.cv-hdr-txt{text-align:right}.cv-hdr-txt h1{font-size:11pt;font-weight:700;color:#fff}.cv-hdr-txt p{font-size:9pt;color:#93c5fd}.cv-body{padding:22px;border:1px solid #e2e8f0;border-top:none}.cv-date{text-align:right;font-size:9pt;color:#666;margin-bottom:18px;font-style:italic}.cv-parte{border:1.5px solid #1F3864;border-radius:5px;padding:10px 14px;margin-bottom:12px}.cv-ptitle{font-size:10pt;font-weight:700;color:#1F3864;margin-bottom:6px;border-bottom:1px solid #e2e8f0;padding-bottom:3px}.cv-parte p{font-size:9pt;margin-bottom:2px}.cv-acordo{text-align:center;font-style:italic;color:#666;margin:14px 0;font-size:9pt}.cv-cl{margin-bottom:14px}.cv-cl h3{font-size:10pt;font-weight:700;color:#1F3864;margin-bottom:6px;padding-bottom:3px;border-bottom:2px solid #1F3864}.cv-cl h4{font-size:9pt;font-weight:700;margin:6px 0 3px}.cv-cl p{font-size:9pt;margin-bottom:4px;text-align:justify}.cv-cl ul{margin-left:16px;margin-bottom:6px}.cv-cl ul li{font-size:9pt;margin-bottom:1px}.cv-sigs{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}.cv-sig{text-align:center}.cv-sig hr{border:none;border-top:1.5px solid #1F3864;margin-bottom:6px}.cv-sig p{font-size:9pt;line-height:1.5}.sn{font-weight:700;color:#1F3864}.cv-footer{background:#1F3864;color:#fff;padding:8px 18px;margin-top:20px;border-radius:3px;font-size:8pt;text-align:center}.cv-footer p{color:#93c5fd;margin-top:1px}@media print{@page{margin:12mm}body{padding:0}}";
+  var css = "*{box-sizing:border-box;margin:0;padding:0}body{font-family:Arial,sans-serif;background:#fff;padding:20px}.cv{max-width:800px;margin:0 auto;font-size:11pt;line-height:1.8;font-family:Arial,sans-serif}.cv-hdr{background:#1F3864;color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between;border-radius:5px 5px 0 0}.cv-hdr img{height:42px;background:#fff;padding:3px;border-radius:3px}.cv-hdr-txt{text-align:right}.cv-hdr-txt h1{font-size:11pt;font-weight:700;color:#fff}.cv-hdr-txt p{font-size:9pt;color:#93c5fd}.cv-body{padding:22px;border:1px solid #e2e8f0;border-top:none}.cv-date{text-align:right;font-size:9pt;color:#666;margin-bottom:18px;font-style:italic}.cv-parte{border:1.5px solid #1F3864;border-radius:5px;padding:10px 14px;margin-bottom:12px}.cv-ptitle{font-size:10pt;font-weight:700;color:#1F3864;margin-bottom:6px;border-bottom:1px solid #e2e8f0;padding-bottom:3px}.cv-parte p{font-size:9pt;margin-bottom:2px}.cv-acordo{text-align:center;font-style:italic;color:#666;margin:14px 0;font-size:9pt}.cv-cl{margin-bottom:14px}.cv-cl h3{font-size:10pt;font-weight:700;color:#1F3864;margin-bottom:6px;padding-bottom:3px;border-bottom:2px solid #1F3864}.cv-cl h4{font-size:9pt;font-weight:700;margin:6px 0 3px}.cv-cl p{font-size:9pt;margin-bottom:4px;text-align:justify}.cv-cl ul{margin-left:16px;margin-bottom:6px}.cv-cl ul li{font-size:9pt;margin-bottom:1px}.cv-sigs{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:24px}.cv-sig{text-align:center}.cv-sig hr{border:none;border-top:1.5px solid #1F3864;margin-bottom:6px}.cv-sig p{font-size:9pt;line-height:1.5}.sn{font-weight:700;color:#1F3864}.cv-footer{background:#1F3864;color:#fff;padding:8px 18px;margin-top:20px;border-radius:3px;font-size:8pt;text-align:center}.cv-footer p{color:#93c5fd;margin-top:1px}@media print{@page{margin:12mm}body{padding:0}}";
   w2.document.write("<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title>Contrato Contabilizy</title><style>"+css+"</style></head><body>"+c+"</body></html>");
   w2.document.close();
   setTimeout(function(){ w2.print(); }, 800);
@@ -511,13 +511,20 @@ function gerarEmail() {
   document.getElementById("em-assunto").textContent="Bem-vindo(a) à "+esc+" – Contrato e Documentos";
   var c="Olá, "+nome.split(" ")[0]+"!\n\n";
   c+="Seja muito bem-vindo(a) à "+esc+"! É um prazer tê-lo(a) como cliente.\n\n";
-  c+="Segue em anexo o contrato de prestação de serviços contábeis referente à empresa "+razao+".\n\n";
+  c+="Segue abaixo o contrato de prestação de serviços contábeis referente à empresa "+razao+".\n\n";
   c+="RESUMO:\n  • Honorário: R$ "+valor.toLocaleString("pt-BR",{minimumFractionDigits:2})+"\n";
   c+="  • Vencimento: dia "+venc+" de cada mês\n  • Pagamento via PIX ou transferência\n\n";
   c+="PRÓXIMOS PASSOS:\n  1. Assine o contrato e nos envie uma via\n";
   c+="  2. Envie docs até o dia 10 de cada mês\n  3. Dúvidas? Fale conosco!\n";
   if(obs) c+="\n"+obs+"\n";
   c+="\n📱 "+tel+"\n📧 "+emailEsc+"\n\nObrigado pela confiança!\n\n"+esc;
+  c+="\n\n──────────────────────────────────────\nCONTRATO EM ANEXO\n──────────────────────────────────────\n\n";
+  // Adicionar texto do contrato ao final
+  gerarContrato();
+  var wrap = document.getElementById("wrap-contrato");
+  if(wrap && wrap.textContent) {
+    c += wrap.textContent.replace(/\s+/g," ").trim();
+  }
   document.getElementById("em-corpo").textContent=c;
   document.getElementById("prev-email").style.display="block";
 }
@@ -583,7 +590,8 @@ function enviarEmail() {
     to_email: email,
     subject: assunto,
     message: corpo,
-    name: nome
+    name: "",
+    title: assunto
   }).then(function() {
     alerta("alerta-email","✓ E-mail enviado com sucesso para " + email + "!","success");
     btn.innerHTML = "🚀 Enviar e-mail agora";
