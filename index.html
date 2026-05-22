@@ -525,13 +525,7 @@ function gerarEmail() {
   c+="  2. Envie docs até o dia 10 de cada mês\n  3. Dúvidas? Fale conosco!\n";
   if(obs) c+="\n"+obs+"\n";
   c+="\n📱 "+tel+"\n📧 "+emailEsc+"\n\nObrigado pela confiança!\n\n"+esc;
-  c+="\n\n──────────────────────────────────────\nCONTRATO EM ANEXO\n──────────────────────────────────────\n\n";
-  // Adicionar texto do contrato ao final
-  gerarContrato();
-  var wrap = document.getElementById("wrap-contrato");
-  if(wrap && wrap.textContent) {
-    c += wrap.textContent.replace(/\s+/g," ").trim();
-  }
+
   document.getElementById("em-corpo").textContent=c;
   document.getElementById("prev-email").style.display="block";
 }
